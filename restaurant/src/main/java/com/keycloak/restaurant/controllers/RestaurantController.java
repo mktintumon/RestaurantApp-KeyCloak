@@ -59,6 +59,13 @@ public class RestaurantController {
 	public Restaurant createRestaurant(Restaurant restaurant) {
         return restaurantRepo.save(restaurant);
     }
+
+	@PutMapping
+	// manager cab access (ram)
+	@PreAuthorize("hasRole('Manager')")
+	public Restaurant updateRestaurant(Restaurant restaurant){
+		return restaurantRepo.save(restaurant);
+	}
 	
 	@PostMapping
 	@RequestMapping("/menu")
@@ -75,7 +82,7 @@ public class RestaurantController {
 	
 	@PutMapping
 	@RequestMapping("/menu/item/{itemId}/{price}")
-	// owner can access (suresh)
+	// ceo and Manager can access (suresh and ram)
 	@PreAuthorize("hasRole('ceo','Manager')")
 	public MenuItems updateMenuItemPrice(@PathVariable Long itemId, @PathVariable BigDecimal price) {
         Optional<MenuItems> menuItem = menuItemRepo.findById(itemId);
